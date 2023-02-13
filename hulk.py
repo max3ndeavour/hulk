@@ -2,7 +2,7 @@ import urllib.request, urllib.error, urllib.parse
 import sys
 import threading
 import random
-import re
+import requests
 
 #global params
 url=''
@@ -137,8 +137,11 @@ else:
 		url = sys.argv[1]
 		if url.count("/")==2:
 			url = url + "/"
-		m = re.search('https\://([^/]*)/?.*', url)
-		host = m.group(1)
+		response = requests.get(url)
+		if response.status_code == 200:
+			print('Web site exists')
+		else:
+			print('Web site does not exist') 
 		for i in range(500):
 			t = HTTPThread()
 			t.start()
